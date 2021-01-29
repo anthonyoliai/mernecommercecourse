@@ -36,7 +36,7 @@ const RegisterScreen = ({ location, history }) => {
       {message && <Message variant='danger'>{message}</Message>}
       {loading && <Loader></Loader>}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId='NAME'>
+        <Form.Group controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control
             type='name'
