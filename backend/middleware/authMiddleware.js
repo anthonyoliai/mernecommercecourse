@@ -15,6 +15,8 @@ const protect = asyncHandler(async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
       //No need to get the password here
       req.user = await User.findById(decoded.id).select('-password')
+      console.log('The request object equals')
+      console.log(req)
       next()
     } catch (error) {
       console.error(error)
@@ -27,4 +29,15 @@ const protect = asyncHandler(async (req, res, next) => {
     throw new Error('Not authorized. No token found.')
   }
 })
-export { protect }
+
+const admin = (req, res, next) => {
+  console.log(`req.user equals ${req.user}`)
+  if (req.user && req.user.isAdmin) {
+    console.log(`The user equals ${req.user}`)
+    next()
+  } else {
+    res.status(401)
+    throw new Error('Not authorized as an admin')
+  }
+}
+export { protect, admin }
